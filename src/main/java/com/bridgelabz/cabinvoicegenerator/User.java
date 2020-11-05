@@ -15,7 +15,7 @@ public class User {
         return rideList;
     }
 
-    public void addRide(double distance , int time) {  //adds ride details to rideList
-        this.rideList.add(new Ride(distance , time));
+    public void addRide(double distance , int time , String category) {  //adds ride details to rideList
+        this.rideList.add(new Ride(distance , time , category));
     }
 }

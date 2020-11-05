@@ -6,33 +6,28 @@ import java.util.ArrayList;
 public class CabInvoiceGeneratorTest {
 
     @Test
-    public void givenDistanceAndTime_ShouldReturnTotalFare() {
+    public void givenUserIdAndNormalRideCategory_ShouldReturnInvoiceSummary() {
         CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
-        double distance = 2.0;
-        int time = 5;
-        double totalFare = cabInvoiceGenerator.calculateFare(distance, time);
-        Assert.assertEquals(25 , totalFare , 0.0);
+        User newUser = new User("abc");
+        newUser.addRide(2.0 , 5 , "normal");
+        newUser.addRide(0.5 , 5 , "normal");
+        newUser.addRide(0.1 , 1 , "normal");
+        ArrayList<Ride> rideListForId = cabInvoiceGenerator.getListOfRides(newUser);
+        InvoiceSummary invoiceSummary = cabInvoiceGenerator.calculateFare(rideListForId);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3 , 40);
+        Assert.assertEquals(expectedInvoiceSummary , invoiceSummary);
     }
 
     @Test
-    public void givenLessDistanceAndTime_ShouldReturnMinimumFare() {
+    public void givenUserIdAndPremiumRideCategory_ShouldReturnInvoiceSummary() {
         CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
-        double distance = 0.1;
-        int time = 1;
-        double totalFare = cabInvoiceGenerator.calculateFare(distance, time);
-        Assert.assertEquals(5 , totalFare , 0.0);
-    }
-
-     @Test
-    public void givenUserId_ShouldReturnInvoiceSummary() {
-        CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
-        User newUser = new User("abc");
-        newUser.addRide(2.0 , 5);
-        newUser.addRide(0.5 , 5);
-        newUser.addRide(0.1 , 1);
+        User newUser = new User("def");
+        newUser.addRide(2.0 , 5 , "premium");
+        newUser.addRide(0.5 , 5 , "premium");
+        newUser.addRide(0.1 , 1 , "normal");
         ArrayList<Ride> rideListForId = cabInvoiceGenerator.getListOfRides(newUser);
         InvoiceSummary invoiceSummary = cabInvoiceGenerator.calculateFare(rideListForId);
-        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3 , 40.0);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3 , 65);
         Assert.assertEquals(expectedInvoiceSummary , invoiceSummary);
     }
 }
