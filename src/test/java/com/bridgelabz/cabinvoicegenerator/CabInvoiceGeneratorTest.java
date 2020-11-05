@@ -1,6 +1,7 @@
 package com.bridgelabz.cabinvoicegenerator;
 import org.junit.Assert;
 import org.junit.Test;
+import java.util.ArrayList;
 
 public class CabInvoiceGeneratorTest {
 
@@ -22,14 +23,15 @@ public class CabInvoiceGeneratorTest {
         Assert.assertEquals(5 , totalFare , 0.0);
     }
 
-    @Test
-    public void givenMultipleRides_ShoulReturnInvoiceSummary() {
+     @Test
+    public void givenUserId_ShouldReturnInvoiceSummary() {
         CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
-        Ride[] rides = { new Ride(2.0 , 5),
-                         new Ride(0.5 , 5),
-                         new Ride(0.1 , 1),
-        };
-        InvoiceSummary invoiceSummary = cabInvoiceGenerator.calculateFare(rides);
+        User newUser = new User("abc");
+        newUser.addRide(2.0 , 5);
+        newUser.addRide(0.5 , 5);
+        newUser.addRide(0.1 , 1);
+        ArrayList<Ride> rideListForId = cabInvoiceGenerator.getListOfRides(newUser);
+        InvoiceSummary invoiceSummary = cabInvoiceGenerator.calculateFare(rideListForId);
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3 , 40.0);
         Assert.assertEquals(expectedInvoiceSummary , invoiceSummary);
     }
